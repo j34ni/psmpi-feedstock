@@ -14,7 +14,7 @@ source:
     folder: pscom
 
 build:
-  number: 0
+  number: 1
   skip: true  # [win or osx]
 
 requirements:
@@ -31,12 +31,14 @@ requirements:
   host:
     - libhwloc
     - libpmix-devel 
+    - ucx
   run:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - {{ compiler('fortran') }}
     - libhwloc
     - libpmix
+    - ucx
 
 test:
   files:
