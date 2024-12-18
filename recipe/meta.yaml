@@ -38,6 +38,7 @@ requirements:
     - {{ compiler('fortran') }}
     - libhwloc
     - libpmix
+    - ucx
 
 test:
   files:
