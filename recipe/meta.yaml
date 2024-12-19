@@ -1,5 +1,6 @@
 {% set version = "5.10.0" %}
 {% set pscom_version = "5.8.0" %}
+{% set build = 1 %}
 
 package:
   name: psmpi
@@ -14,7 +15,9 @@ source:
     folder: pscom
 
 build:
-  number: 1
+  number: {{ build }}
+  run_exports:
+    - {{ pin_subpackage('psmpi', max_pin='x.y') }}
   skip: true  # [win or osx]
 
 requirements:
@@ -53,8 +56,10 @@ about:
   license: QPL-1.0
   license_family: OTHER
   license_file: LICENSE
-  summary: ParaStation MPI is an implementation of the Message-Passing Interface (MPI) Standard.
-           Being an MPICH-derivative it bases on the MPICH-4.1.1 implementation.
+  summary: ParaStation MPI is an MPIch based implementation of the Message-Passing Interface (MPI) Standard.
+  description: |
+    ParaStation MPI relies on a low-level communication layer called `pscom` and provides full MPI-4 compliance. 
+    Furthermore, the Process Management Interface for Exascale (PMIx) is supported as interface to the process manager.
 
 extra:
   recipe-maintainers:
