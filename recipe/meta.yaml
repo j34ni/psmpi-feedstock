@@ -1,6 +1,5 @@
 {% set version = "5.10.0" %}
 {% set pscom_version = "5.8.0" %}
-{% set build = 2 %}
 
 package:
   name: psmpi
@@ -15,16 +14,14 @@ source:
     folder: pscom
 
 build:
-  number: {{ build }}
-  run_exports:
-    - {{ pin_subpackage('psmpi', max_pin='x.y') }}
+  number: 3
   skip: true  # [win or osx]
 
 requirements:
   build:
-    - {{ compiler('c') }}
-    - {{ compiler('cxx') }}
-    - {{ compiler('fortran') }}
+    - gcc_linux-64 >=10.3.0
+    - gxx_linux-64 >=10.3.0
+    - gfortran_linux-64 >=10.3.0
     - {{ stdlib("c") }}
     - autoconf
     - automake
@@ -34,15 +31,14 @@ requirements:
   host:
     - libhwloc
     - libpmix-devel 
-    - ucx
+    - ucx >=1.14.0
   run:
-    - {{ compiler('c') }}
-    - {{ compiler('cxx') }}
-    - {{ compiler('fortran') }}
+    - gcc_linux-64 >=10.3.0
+    - gxx_linux-64 >=10.3.0
+    - gfortran_linux-64 >=10.3.0
     - libhwloc
     - libpmix
-    - mpi 1.0.* psmpi
-    - ucx
+    - ucx >=1.14.0
 
 test:
   files:
@@ -57,17 +53,8 @@ about:
   license: QPL-1.0
   license_family: OTHER
   license_file: LICENSE
-  summary: ParaStation MPI is an MPIch based implementation of the Message-Passing Interface (MPI) Standard.
-  description: |
-    ParaStation MPI relies on a low-level communication layer called `pscom` and provides full MPI-4 compliance. 
-    
-    Since it is configured with the Process Management Interface for Exascale (PMIx), an external job launcher is 
-    required to run MPI jobs. Typically, in high-performance computing environments using the Slurm Workload Manager,
-    applications would be executed with:
-
-    ```
-    srun --mpi=pmix mpi_application
-    ```
+  summary: ParaStation MPI is an implementation of the Message-Passing Interface (MPI) Standard.
+           Being an MPICH-derivative it bases on the MPICH-4.1.1 implementation.
 
 extra:
   recipe-maintainers:
