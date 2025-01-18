@@ -7,7 +7,18 @@ Home: https://github.com/ParaStation/psmpi
 
 Package license: QPL-1.0
 
-Summary: ParaStation MPI is an implementation of the Message-Passing Interface (MPI) Standard. Being an MPICH-derivative it bases on the MPICH-4.1.1 implementation.
+Summary: ParaStation MPI is an MPIch based implementation of the Message-Passing Interface (MPI) Standard.
+
+ParaStation MPI relies on a low-level communication layer called `pscom` and provides full MPI-4 compliance.
+
+Since it is configured with the Process Management Interface for Exascale (PMIx), an external job launcher is
+required to run MPI jobs. Typically, in high-performance computing environments using the Slurm Workload Manager,
+applications would be executed with:
+
+```
+srun --mpi=pmix mpi_application
+```
+
 
 Current build status
 ====================
