@@ -1,6 +1,5 @@
 {% set version = "5.10.0" %}
 {% set pscom_version = "5.8.0" %}
-{% set build = 2 %}
 
 package:
   name: psmpi
@@ -15,7 +14,7 @@ source:
     folder: pscom
 
 build:
-  number: {{ build }}
+  number: 4
   run_exports:
     - {{ pin_subpackage('psmpi', max_pin='x.y') }}
   skip: true  # [win or osx]
