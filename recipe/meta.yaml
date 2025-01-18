@@ -1,6 +1,6 @@
 {% set version = "5.10.0" %}
 {% set pscom_version = "5.8.0" %}
-{% set build = 2 %}
+{% set build = 4 %}
 
 package:
   name: psmpi
