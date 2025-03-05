@@ -40,7 +40,6 @@ requirements:
     - {{ compiler('fortran') }}
     - libhwloc
     - libpmix
-    - mpi 1.0.* psmpi
     - ucx
 
 test:
