@@ -24,7 +24,7 @@ requirements:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - {{ compiler('fortran') }}
-    - {{ stdlib("c") }}
+    - {{ stdlib("c") }} 
     - autoconf
     - automake
     - cmake
