@@ -38,6 +38,7 @@ requirements:
   host:
     - libhwloc
     - libpmix-devel
+    - prrte
     - ucx
   run:
     - {{ compiler('c') }}
@@ -45,6 +46,7 @@ requirements:
     - {{ compiler('fortran') }}
     - libhwloc
     - libpmix
+    - prrte
     - ucx
 
 test:
