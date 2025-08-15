@@ -23,7 +23,8 @@ cd build
              --with-pmix=$PREFIX \
              --enable-msa-awareness \
              --enable-threading \
-	     --enable-psmalloc
+             --enable-psmalloc \
+	     --enable-fortran=all
 
 make -j"${CPU_COUNT}"
 
