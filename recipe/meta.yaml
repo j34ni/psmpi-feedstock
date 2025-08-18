@@ -17,10 +17,10 @@ source:
       - fix-pscom-macros.patch
 
 build:
-  number: 2
+  number: 3
   run_exports:
     - {{ pin_subpackage('psmpi', max_pin='x.y.z') }}
-  skip: true  # [win or osx]
+  skip: true  # [win or osx or aarch64]
 
 requirements:
   build:
