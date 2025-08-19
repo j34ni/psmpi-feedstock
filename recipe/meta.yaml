@@ -17,7 +17,7 @@ source:
       - fix-pscom-macros.patch
 
 build:
-  number: 3
+  number: 4
   run_exports:
     - {{ pin_subpackage('psmpi', max_pin='x.y.z') }}
   skip: true  # [win or osx or aarch64]
@@ -45,6 +45,7 @@ requirements:
     - {{ compiler('fortran') }}
     - libhwloc
     - libpmix
+    - openssh
     - prrte
     - ucx
 
@@ -54,6 +55,7 @@ test:
   commands:
     - mpichversion
     - mpifort -o hello_world_mpi hello_world_mpi.f90
+    - prterun -np 1 ./hello_world_mpi
     - test -f $PREFIX/lib/libmpi.so
 
 about:
@@ -63,14 +65,21 @@ about:
   license_file: LICENSE
   summary: ParaStation MPI is an MPIch based implementation of the Message-Passing Interface (MPI) Standard.
   description: |
-    ParaStation MPI relies on a low-level communication layer called `pscom` and provides full MPI-4 compliance. 
-    
-    Since it is configured with the Process Management Interface for Exascale (PMIx), an external job launcher is 
-    required to run MPI jobs. Typically, in high-performance computing environments using the Slurm Workload Manager,
-    applications would be executed with:
+    ParaStation MPI relies on a low-level communication layer called `pscom` and provides full MPI-4 compliance.
+
+    Since it is configured with the Process Management Interface for Exascale (PMIx), an external job launcher 
+    is required to run MPI jobs spawning multiple nodes, typically in a high-performance computing environment.
+
+    For instance using the Slurm Workload Manager, applications would be executed with:
 
     ```
     srun --mpi=pmix mpi_application
+    ```
+
+    For single-node jobs (here with 2 processes) use instead `prterun` :
+
+    ```
+    prterun -np 2 ./mpi_application"
     ```
 
 extra:
