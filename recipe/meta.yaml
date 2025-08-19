@@ -55,7 +55,7 @@ test:
   commands:
     - mpichversion
     - mpifort -o hello_world_mpi hello_world_mpi.f90
-    - prterun -np 2 ./hello_world_mpi
+    - prterun --map-by :hwtcpus -np 2 ./hello_world_mpi
     - test -f $PREFIX/lib/libmpi.so
 
 about:
