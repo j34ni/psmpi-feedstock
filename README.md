@@ -11,12 +11,19 @@ Summary: ParaStation MPI is an MPIch based implementation of the Message-Passing
 
 ParaStation MPI relies on a low-level communication layer called `pscom` and provides full MPI-4 compliance.
 
-Since it is configured with the Process Management Interface for Exascale (PMIx), an external job launcher is
-required to run MPI jobs. Typically, in high-performance computing environments using the Slurm Workload Manager,
-applications would be executed with:
+Since it is configured with the Process Management Interface for Exascale (PMIx), an external job launcher
+is required to run MPI jobs spawning multiple nodes, typically in a high-performance computing environment.
+
+For instance using the Slurm Workload Manager, applications would be executed with:
 
 ```
 srun --mpi=pmix mpi_application
+```
+
+For single-node jobs (here with 2 processes) use instead `prterun` :
+
+```
+prterun -np 2 ./mpi_application"
 ```
 
 
@@ -42,13 +49,6 @@ Current build status
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=24471&branchName=main">
                   <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/psmpi-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
-              <td>linux_aarch64</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=24471&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/psmpi-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_aarch64_" alt="variant">
                 </a>
               </td>
             </tr>
