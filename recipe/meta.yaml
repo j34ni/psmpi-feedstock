@@ -42,20 +42,20 @@ requirements:
     - prrte
     - ucx
   run:
-    - {{ compiler('c') }}
-    - {{ compiler('cxx') }}
-    - {{ compiler('fortran') }}
     - libhwloc
-    - libpmix
     - openssh
     - prrte
     - ucx
 
 test:
+  requires:
+    - {{ compiler('fortran') }}
   files:
     - hello_world_mpi.f90
   commands:
     - test -f $PREFIX/lib/libmpi.so
+    - mpifort -o hello_world_mpi hello_world_mpi.f90
+    - prterun --use-hwthread-cpus -np 2 ./hello_world_mpi
 
 about:
   home: https://github.com/ParaStation/psmpi
