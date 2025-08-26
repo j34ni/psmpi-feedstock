@@ -35,7 +35,6 @@ requirements:
     - git
     - libtool
     - make
-    - pkg-config
   host:
     - libhwloc
     - libpmix-devel
