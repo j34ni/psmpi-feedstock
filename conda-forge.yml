@@ -10,3 +10,6 @@ provider:
 
 build_platform:
   linux_aarch64: linux_64
+
+azure:
+  store_build_artifacts: true
