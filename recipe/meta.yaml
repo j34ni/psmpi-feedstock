@@ -9,6 +9,8 @@ source:
   - url: https://github.com/ParaStation/psmpi/archive/refs/tags/{{ version }}-1.tar.gz
     sha256: 21cf9b1f944ae9f331a4f5fbba83b328952fd25fda55fb608df27d065d3e2010
     folder: psmpi
+    patches:
+      - fix-cross-file-check.patch
   - url: https://github.com/ParaStation/pscom/archive/refs/tags/{{ pscom_version }}-1.tar.gz
     sha256: 9e7d5ea30a006fa794c246e76afda0d3d1b486d4cae097c6e2181fbbc15e0ea3
     folder: pscom
