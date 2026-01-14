@@ -16,7 +16,7 @@ source:
       - remove-internal-cookie-include.patch
 
 build:
-  number: 7
+  number: 0
   run_exports:
     - {{ pin_subpackage('psmpi', max_pin='x.y.z') }}
   skip: true  # [win or osx]
