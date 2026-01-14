@@ -1,30 +1,18 @@
---- configure.ac
-+++ configure.ac
-@@ -390,17 +390,17 @@
- CONF_ECHO_ALLIN=""
+--- a/configure.ac
++++ b/configure.ac
+@@ -411,9 +411,12 @@
+ 		cp include/pscom.h "${TOP_BUILDDIR}/pscom"
+ 	],[with_pscom_allin=$with_pscom_allin; TOP_BUILDDIR=$TOP_BUILDDIR])
  
- AS_IF([test "x$with_pscom_allin" != "xno"],[
--	# Ensure somethin else than "yes" was given
--	AS_IF([test "x$with_pscom_allin" == "xyes"],[
--		AC_MSG_ERROR(["You have to provide a path to the pscom sources. Abort!"])
--	])
-+    # Ensure somethin else than "yes" was given
-+    AS_IF([test "x$with_pscom_allin" == "xyes"],[
-+        AC_MSG_ERROR(["You have to provide a path to the pscom sources. Abort!"])
-+    ])
- 
--	export PSCOM_ALLIN="true"
--	PSCOM_ALLIN_DIR="$with_pscom_allin"
 -	AC_CHECK_FILE(["${PSCOM_ALLIN_DIR}/lib/all/pscom_all.c"], [
 -		PSCOM_ALLIN_DIR="${PSCOM_ALLIN_DIR}/lib/all/"
 -	])
--	export MPICHLIB_CFLAGS="${MPICHLIB_CFLAGS} -DPSCOM_ALLIN -I${PSCOM_ALLIN_DIR}/ -I${PSCOM_ALLIN_DIR}/../../include/ -I${PSCOM_ALLIN_DIR}/../../lib/pscom/"
-+    export PSCOM_ALLIN="true"
-+    PSCOM_ALLIN_DIR="$with_pscom_allin"
-+    if test -r "${PSCOM_ALLIN_DIR}/lib/all/pscom_all.c" ; then
-+        PSCOM_ALLIN_DIR="${PSCOM_ALLIN_DIR}/lib/all/"
-+    fi
-+    export MPICHLIB_CFLAGS="${MPICHLIB_CFLAGS} -DPSCOM_ALLIN -I${PSCOM_ALLIN_DIR}/ -I${PSCOM_ALLIN_DIR}/../../include/ -I${PSCOM_ALLIN_DIR}/../../lib/pscom/"
++	dnl Use shell test instead of AC_CHECK_FILE to support cross-compilation
++        dnl (the checked file never exists in the --with-pscom-allin source bundle anyway)
++        if test -r "${PSCOM_ALLIN_DIR}/lib/all/pscom_all.c" ; then
++                PSCOM_ALLIN_DIR="${PSCOM_ALLIN_DIR}/lib/all/"
++        fi
++
+ 	export MPICHLIB_CFLAGS="${MPICHLIB_CFLAGS} -DPSCOM_ALLIN -I${PSCOM_ALLIN_DIR}/ -I${PSCOM_ALLIN_DIR}/../../include/ -I${PSCOM_ALLIN_DIR}/../../lib/pscom/"
  
  	if test -x "${PSCOM_ALLIN_DIR}/../../scripts/vcversion" ; then
- 		if ! test -d "${TOP_BUILDDIR}/pscom" ; then
