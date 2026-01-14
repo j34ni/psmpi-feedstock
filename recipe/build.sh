@@ -49,6 +49,13 @@ cd ${SRC_DIR}/psmpi/mpich2
 
 ./autogen.sh
 
+unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS LIBS FCFLAGS FFLAGS
+export LDFLAGS="-L${PREFIX}/lib"
+export MPICHLIB_CFLAGS="-O3"
+export MPICHLIB_CXXFLAGS="-O3"
+export MPICHLIB_FFLAGS="-O3"
+export MPICHLIB_FCFLAGS="-O3"
+
 mkdir -p build
 cd build
 
@@ -67,10 +74,10 @@ cd build
              --enable-cxx \
              --enable-fast=all \
              --enable-g=none \
-	     --disable-doc \
-	     --disable-static \
-	     --disable-dependency-tracking \
-	     --with-wrapper-dl-type=none
+             --disable-doc \
+             --disable-static \
+             --disable-dependency-tracking \
+             --with-wrapper-dl-type=none
 
 make -j${CPU_COUNT}
 
