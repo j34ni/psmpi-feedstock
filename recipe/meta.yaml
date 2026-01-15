@@ -2,7 +2,7 @@
 {% set shs_libfabric_version = "2.2.0" %}
 
 package:
-  name: psmpi-shs
+  name: psmpi
   version: {{ psmpi_version }}
 
 source:
