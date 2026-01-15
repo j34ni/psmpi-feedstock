@@ -72,7 +72,7 @@ test:
 
 about:
   home: https://github.com/ParaStation/psmpi
-  license: Custom (MPICH permissive license)
+  license: Custom
   license_family: Other
   license_file:
     - psmpi/mpich2/COPYRIGHT
