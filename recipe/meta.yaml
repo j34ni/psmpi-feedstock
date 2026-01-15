@@ -72,8 +72,8 @@ test:
 
 about:
   home: https://github.com/ParaStation/psmpi
-  license: Custom
-  license_family: Other
+  license: BSD-2-Clause OR GPL-2.0-only
+  license_family: BSD
   license_file:
     - psmpi/mpich2/COPYRIGHT
     - shs-libfabric/COPYING 
