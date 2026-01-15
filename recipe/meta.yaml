@@ -21,7 +21,7 @@ build:
   string: shs_h{{ PKG_HASH }}
   skip: true  # [win or osx]
   run_exports:
-    - {{ pin_subpackage('psmpi-shs', max_pin='x.y.z') }}
+    - {{ pin_subpackage('psmpi', max_pin='x.y.z') }}
 
 requirements:
   build:
