@@ -1,27 +1,27 @@
-{% set version = "5.13.0" %}
-{% set pscom_version = "6.0.0" %}
+{% set psmpi_version = "4.3.2" %}
+{% set shs_libfabric_version = "2.2.0" %}
 
 package:
   name: psmpi
-  version: {{ version }}
+  version: {{ psmpi_version }}
 
 source:
-  - url: https://github.com/ParaStation/psmpi/archive/refs/tags/{{ version }}-1.tar.gz
-    sha256: 21cf9b1f944ae9f331a4f5fbba83b328952fd25fda55fb608df27d065d3e2010
+  - url: https://github.com/ParaStation/psmpi/archive/refs/tags/vendor-{{ psmpi_version }}.tar.gz
+    sha256: 52ce34df369622f283a6f54e2b70675f5b4870d64b54d0e96c3e6eb0818b7b35
     folder: psmpi
+  - url: https://github.com/HewlettPackard/shs-libfabric/archive/refs/tags/v{{ shs_libfabric_version }}.tar.gz
+    sha256: 734aa46fc1a5c69c59514aade3e8f17037506fbb08013f4be63d669e546570b0
+    folder: shs-libfabric
     patches:
-      - fix-cross-file-check.patch
-  - url: https://github.com/ParaStation/pscom/archive/refs/tags/{{ pscom_version }}-1.tar.gz
-    sha256: 9e7d5ea30a006fa794c246e76afda0d3d1b486d4cae097c6e2181fbbc15e0ea3
-    folder: pscom
-    patches:
-      - remove-internal-cookie-include.patch
+      - fix_reallocarray.patch 
+      - define_map_huge_shift.patch 
 
 build:
   number: 0
+  string: shs_h{{ PKG_HASH }}
+  skip: true  # [win or osx]
   run_exports:
     - {{ pin_subpackage('psmpi', max_pin='x.y.z') }}
-  skip: true  # [win or osx]
 
 requirements:
   build:
@@ -29,10 +29,8 @@ requirements:
     - {{ compiler('cxx') }}
     - {{ compiler('fortran') }}
     - {{ stdlib("c") }}
-    - autoconf 
+    - autoconf
     - automake
-    - cmake
-    - git
     - libtool
     - make
   host:
@@ -40,11 +38,22 @@ requirements:
     - libpmix-devel
     - prrte
     - ucx
+    - json-c
+    - libcurl
+    - libnl
+    - rdma-core
+    - shs-cassini-headers
+    - shs-libcxi
+    - shs-cxi-drivers
   run:
     - libhwloc
-    - openssh
     - prrte
     - ucx
+    - json-c
+    - libcurl
+    - libnl
+    - rdma-core
+    - shs-libcxi
 
 test:
   requires:
@@ -52,22 +61,32 @@ test:
     - {{ compiler('cxx') }}
     - {{ compiler('fortran') }}
   files:
-    - hello_world_mpi.f90
+    - hello_world_mpi.f90 
   commands:
     - test -f $PREFIX/lib/libmpi.so
+    - test -f $PREFIX/bin/mpicc
+    - test -f $PREFIX/bin/mpifort
+    - test -f $PREFIX/bin/mpiexec || test -f $PREFIX/bin/prterun 
     - mpifort -o hello_world_mpi hello_world_mpi.f90
-    - prterun --map-by :HWTCPUS:OVERSUBSCRIBE -np 2 ./hello_world_mpi
+    - prterun --map-by :HWTCPUS:OVERSUBSCRIBE -np 2 ./hello_world_mpi || mpiexec -n 2 ./hello_world_mpi
 
 about:
   home: https://github.com/ParaStation/psmpi
-  license: QPL-1.0
-  license_family: OTHER
-  license_file: LICENSE
-  summary: ParaStation MPI is an MPIch based implementation of the Message-Passing Interface (MPI) Standard.
+  license: BSD-2-Clause OR GPL-2.0-only
+  license_family: BSD
+  license_file:
+    - psmpi/mpich2/COPYRIGHT
+    - shs-libfabric/COPYING 
+  summary: ParaStation MPI (vendor branch 4.3.2) with Slingshot support via shs-libfabric
   description: |
-    ParaStation MPI relies on a low-level communication layer called `pscom` and provides full MPI-4 compliance.
+    This package builds the vendor-4.3.2 branch of ParaStation MPI (MPICH-based) with the CH4 device 
+    configured for dual UCX + OFI support. It bundles a Slingshot-optimized libfabric (shs-libfabric) 
+    for HPE Cray Slingshot interconnects (CXI provider).
 
-    Since it is configured with the Process Management Interface for Exascale (PMIx), an external job launcher 
+    To force the OFI netmod: `export MPICH_CH4_NETMOD=ofi` (or `ucx` for UCX).
+    For Slingshot, use `FI_PROVIDER=cxi`.
+
+        Since it is configured with the Process Management Interface for Exascale (PMIx), an external job launcher
     is required to run MPI jobs spawning multiple nodes, typically in a high-performance computing environment.
 
     For instance using the Slurm Workload Manager, applications would be executed with:
