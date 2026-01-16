@@ -75,3 +75,10 @@ cd build
 make -j${CPU_COUNT}
 
 make install
+
+# Clean embedded reproducibility flags (-fdebug-prefix-map=...) from MPI wrappers
+for wrapper in "${PREFIX}/bin/"*mpi*; do
+  if [[ -f "${wrapper}" ]]; then
+    sed -i '/-fdebug-prefix-map=/d' "${wrapper}"
+  fi
+done
