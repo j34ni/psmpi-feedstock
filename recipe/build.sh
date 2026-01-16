@@ -75,3 +75,14 @@ cd build
 make -j${CPU_COUNT}
 
 make install
+
+# Clean embedded reproducibility flags (-fdebug-prefix-map=...) from MPI wrappers
+# In MPICH 4.x, these flags are each added on separate lines in array syntax
+# (e.g., pre_cflags+=("-fdebug-prefix-map=..."))
+# Deleting the entire line removes them safely without breaking quoting or syntax
+for wrapper in "${PREFIX}/bin/"*mpi* "${PREFIX}/bin/"opi*; do
+  if [[ -f "${wrapper}" ]]; then
+    sed -i.bak '/-fdebug-prefix-map=/d' "${wrapper}"
+    rm -f "${wrapper}.bak"
+  fi
+done
